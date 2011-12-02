@@ -19,13 +19,11 @@ public class App
 
         final ProgressBar slow = new ProgressBar(Label.create("slower thing", 12),
                                                  Height.fromBottom(0),
-                                                 15,
                                                  Percentage.show());
         slow.render().get();
 
         final ProgressBar fast = new ProgressBar(Label.create("fast thing", 12),
                                                  Height.fromBottom(1),
-                                                 10,
                                                  Percentage.show());
         fast.render().get();
 
@@ -34,9 +32,10 @@ public class App
             @Override
             public Void call() throws Exception
             {
-                for (int i = 0; i < 15; i++) {
+
+                for (int i = 0; i <= 15; i++) {
                     Thread.sleep(500);
-                    slow.progress().render().get();
+                    slow.progress((i / 15.0)).render().get();
                 }
                 return null;
             }
@@ -47,9 +46,9 @@ public class App
             @Override
             public Void call() throws Exception
             {
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i <= 10; i++) {
                     Thread.sleep(500);
-                    fast.progress().render().get();
+                    fast.progress((i / 10.0)).render().get();
                 }
                 return null;
             }

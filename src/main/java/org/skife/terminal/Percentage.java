@@ -20,14 +20,14 @@ public class Percentage
         return show ? 6 : 1;
     }
 
-    String display(double steps, double completed)
+    String display(double fraction)
     {
+        double pct = fraction * 100D;
         if (show) {
-            Double pct = ((completed / steps) * 100);
             if (pct > 100) {
                 pct = 100D;
             }
-            return " " + pct.intValue() + "%";
+            return " " + (int)pct + "%";
         }
         else {
             return "";

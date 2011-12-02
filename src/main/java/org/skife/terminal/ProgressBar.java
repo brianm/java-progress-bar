@@ -7,50 +7,28 @@ import org.fusesource.jansi.Ansi;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ProgressBar
 {
     private static final Terminal terminal = TerminalFactory.get();
 
-    private final int        line;
-    private final int        steps;
+    private final AtomicInteger line = new AtomicInteger(-1);
+    private final AtomicReference<Double> progress = new AtomicReference<Double>(0D);
     private final Percentage percentage;
-
-    private final AtomicInteger stepsCompleted = new AtomicInteger(0);
     private final Label label;
 
-    public ProgressBar(int steps)
-    {
-        this(Height.fromBottom(0), steps);
-    }
-
-    public ProgressBar(int steps, Percentage percentage)
-    {
-        this(Label.empty(), Height.fromBottom(0), steps, percentage);
-    }
-
-    public ProgressBar(Height height, int steps)
-    {
-        this(Label.empty(), height, steps, Percentage.hide());
-    }
-
-    public ProgressBar(Label label, Height height, int steps, Percentage percentage)
+    public ProgressBar(Label label, Height height, Percentage percentage)
     {
         this.label = label;
-        this.line = height.getOffset();
-        this.steps = steps;
+        this.line.set(height.getOffset());
         this.percentage = percentage;
     }
 
-    public ProgressBar progress(int steps)
+    public ProgressBar progress(Double percent)
     {
-        stepsCompleted.addAndGet(steps);
+        progress.set(percent);
         return this;
-    }
-
-    public ProgressBar progress()
-    {
-        return progress(1);
     }
 
     public Future<Void> render()
@@ -59,19 +37,19 @@ public class ProgressBar
         {
             private int height()
             {
-                if (line >= 0) {
-                    return line;
+                int l = line.get();
+                if (l >= 0) {
+                    return l;
                 }
                 else {
-                    return terminal.getHeight() + line + 1;
+                    return terminal.getHeight() + l + 1;
                 }
             }
 
             @Override
             public Void call() throws Exception
             {
-                int steps_completed = stepsCompleted.get();
-
+                double prog = progress.get();
                 int bar_width = terminal.getWidth()
                                 - (label.getWidth() + 1) // label + space
                                 - 2  // brackets
@@ -88,7 +66,7 @@ public class ProgressBar
                 ansi.a("[");
 
                 ansi.fg(Ansi.Color.BLUE);
-                Double so_far_d = ((steps_completed * 1.0) / (steps * 1.0)) * bar_width;
+                Double so_far_d = prog * bar_width;
                 int so_far = so_far_d.intValue();
                 if (so_far > bar_width) {
                     so_far = bar_width;
@@ -98,8 +76,7 @@ public class ProgressBar
                     ansi.a("*");
                 }
 
-                for (int i = 0; i < bar_width - so_far; i++)
-                {
+                for (int i = 0; i < bar_width - so_far; i++) {
                     ansi.a(" ");
                 }
 
@@ -107,7 +84,7 @@ public class ProgressBar
                 ansi.a("]");
 
                 ansi.reset();
-                ansi.a(percentage.display(steps, steps_completed));
+                ansi.a(percentage.display(prog));
 
                 System.out.print(ansi);
                 System.out.flush();
