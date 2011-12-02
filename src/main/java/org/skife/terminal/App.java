@@ -3,6 +3,9 @@ package org.skife.terminal;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 
@@ -11,26 +14,51 @@ public class App
     public static void main(String[] args) throws Exception
     {
         AnsiConsole.systemInstall();
-
-        System.out.println(Ansi.ansi().newline());
-        ProgressBar core = new ProgressBar(Label.create("slower thing", 15),
-                                           Height.fromBottom(0),
-                                           15,
-                                           Percentage.show());
-
-        ProgressBar rslv = new ProgressBar(Label.create("fast thing", 15),
-                                           Height.fromBottom(1),
-                                           10,
-                                           Percentage.show());
-        for (int i = 0; i < 15; i++) {
-            Future one  = core.progress().render();
-            Future two = rslv.progress().render();
-
-            one.get();
-            two.get();
-            Thread.sleep(1000);
-        }
         System.out.println();
+
+        ExecutorService es = Executors.newCachedThreadPool();
+
+        final ProgressBar slow = new ProgressBar(Label.create("slower thing", 15),
+                                                 Height.fromBottom(0),
+                                                 15,
+                                                 Percentage.show());
+        slow.render().get();
+
+        final ProgressBar fast = new ProgressBar(Label.create("fast thing", 15),
+                                                 Height.fromBottom(1),
+                                                 10,
+                                                 Percentage.show());
+        fast.render().get();
+
+        Future one = es.submit(new Callable<Void>()
+        {
+            @Override
+            public Void call() throws Exception
+            {
+                for (int i = 0; i < 15; i++) {
+                    Thread.sleep(500);
+                    slow.progress().render().get();
+                }
+                return null;
+            }
+        });
+
+        Future two = es.submit(new Callable<Void>()
+        {
+            @Override
+            public Void call() throws Exception
+            {
+                for (int i = 0; i < 10; i++) {
+                    Thread.sleep(500);
+                    fast.progress().render().get();
+                }
+                return null;
+            }
+        });
+
+        one.get();
+        two.get();
+        es.shutdown();
 
     }
 }
