@@ -29,7 +29,6 @@ public class App
             @Override
             public Void call() throws Exception
             {
-
                 for (int i = 0; i <= 15; i++) {
                     Thread.sleep(500);
                     slow.progress((i / 15.0)).render().get();

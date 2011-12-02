@@ -2,25 +2,48 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
     <groupId>org.skife.terminal</groupId>
-    <artifactId>progress</artifactId>
+    <artifactId>java-progress-bar</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>progress</name>
-    <url>http://maven.apache.org</url>
+    <url>http://github.com/brianm/java-progress-bar</url>
+    <description>A terminal progress bar library for java</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/brianm/java-progress-bar.git</connection>
+        <developerConnection>scm:git:git@github.com:brianm/java-progress-bar.git</developerConnection>
+        <url>http://github.com/brianm/java-progress-bar/tree/master</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>brianm</id>
+            <name>Brian McCallister</name>
+            <email>brianm@skife.org</email>
+        </developer>
+    </developers>
+
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.fusesource.jansi</groupId>
@@ -85,7 +108,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.fusesource</pattern>
-                                    <shadedPattern>org.skife.terminal.org.fusesource</shadedPattern>
+                                    <shadedPattern>org.skife.terminal.fusesource</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>jline</pattern>
