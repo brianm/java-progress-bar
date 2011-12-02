@@ -3,6 +3,7 @@ package org.skife.terminal;
 import jline.Terminal;
 import jline.TerminalFactory;
 import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -11,6 +12,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ProgressBar
 {
+    static {
+        AnsiConsole.systemInstall();
+    }
+
     private static final Terminal terminal = TerminalFactory.get();
 
     private final AtomicInteger line = new AtomicInteger(-1);
