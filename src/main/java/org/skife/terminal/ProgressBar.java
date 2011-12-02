@@ -10,6 +10,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.fusesource.jansi.Ansi.ansi;
+
 public class ProgressBar
 {
     static {
@@ -100,5 +102,10 @@ public class ProgressBar
         }
 
         );
+    }
+
+    public static void moveCursorToBottomRight()
+    {
+        System.out.println(ansi().cursor(terminal.getHeight(), terminal.getWidth()));
     }
 }

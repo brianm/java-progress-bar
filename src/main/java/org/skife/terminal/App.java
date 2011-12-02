@@ -15,12 +15,12 @@ public class App
         ExecutorService es = Executors.newCachedThreadPool();
 
         final ProgressBar slow = new ProgressBar(Label.create("slower thing", 12),
-                                                 Height.fromBottom(0),
+                                                 Height.fromBottom(1),
                                                  Percentage.show());
         slow.render().get();
 
         final ProgressBar fast = new ProgressBar(Label.create("fast thing", 12),
-                                                 Height.fromBottom(1),
+                                                 Height.fromBottom(0),
                                                  Percentage.show());
         fast.render().get();
 
@@ -53,6 +53,6 @@ public class App
         one.get();
         two.get();
         es.shutdown();
-
+        ProgressBar.moveCursorToBottomRight();
     }
 }
