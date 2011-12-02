@@ -77,6 +77,21 @@
                                     <resource>.sf</resource>
                                 </transformer>
                             </transformers>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.sonatype.jline:jline</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>org.fusesource</pattern>
+                                    <shadedPattern>org.skife.terminal.org.fusesource</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>jline</pattern>
+                                    <shadedPattern>org.skife.terminal.jline</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>

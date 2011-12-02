@@ -87,12 +87,13 @@ public class ProgressBar
                 ansi.fg(Ansi.Color.GREEN);
                 ansi.a("[");
 
-
                 ansi.fg(Ansi.Color.BLUE);
-                int so_far = (bar_width / steps) * steps_completed;
+                Double so_far_d = ((steps_completed * 1.0) / (steps * 1.0)) * bar_width;
+                int so_far = so_far_d.intValue();
                 if (so_far > bar_width) {
                     so_far = bar_width;
                 }
+
                 for (int i = 0; i < so_far; i++) {
                     ansi.a("*");
                 }
