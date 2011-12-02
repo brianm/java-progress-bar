@@ -1,6 +1,5 @@
 package org.skife.terminal;
 
-import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.util.concurrent.Callable;
@@ -18,13 +17,13 @@ public class App
 
         ExecutorService es = Executors.newCachedThreadPool();
 
-        final ProgressBar slow = new ProgressBar(Label.create("slower thing", 15),
+        final ProgressBar slow = new ProgressBar(Label.create("slower thing", 12),
                                                  Height.fromBottom(0),
                                                  15,
                                                  Percentage.show());
         slow.render().get();
 
-        final ProgressBar fast = new ProgressBar(Label.create("fast thing", 15),
+        final ProgressBar fast = new ProgressBar(Label.create("fast thing", 12),
                                                  Height.fromBottom(1),
                                                  10,
                                                  Percentage.show());

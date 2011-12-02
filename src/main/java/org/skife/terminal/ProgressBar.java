@@ -73,7 +73,7 @@ public class ProgressBar
                 int steps_completed = stepsCompleted.get();
 
                 int bar_width = terminal.getWidth()
-                                - (label.length() + 1) // label + space
+                                - (label.getWidth() + 1) // label + space
                                 - 2  // brackets
                                 - percentage.length();
 

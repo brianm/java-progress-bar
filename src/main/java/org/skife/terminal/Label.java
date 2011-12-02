@@ -3,34 +3,39 @@ package org.skife.terminal;
 public class Label
 {
     private final String text;
-    private final int padding;
+    private final int width;
 
-    private Label(String text, int padding)
+    private Label(String text, int width)
     {
-        if (text.length() > padding) {
-            throw new IllegalArgumentException("Text length cannot be greater than padding!");
-        }
         this.text = text;
-        this.padding = padding;
+        this.width = width;
     }
 
-    public static Label create(String text) {
+    public static Label create(String text)
+    {
         return new Label(text, text.length());
     }
 
-    public static Label create(String text, int padding) {
-        return new Label(text, padding);
+    public static Label create(String text, int width)
+    {
+        return new Label(text, width);
     }
 
-    public static Label empty() {
+    public static Label empty()
+    {
         return new Label("", 0);
     }
 
     public String toString()
     {
         StringBuilder b = new StringBuilder();
-        b.append(text);
-        int remaining = padding - text.length();
+        if (text.length() > width) {
+            b.append(text.substring(0, width));
+        }
+        else {
+            b.append(text);
+        }
+        int remaining = width - text.length();
         if (remaining > 0) {
             for (int i = 0; i < remaining; i++) {
                 b.append(" ");
@@ -39,7 +44,8 @@ public class Label
         return b.toString();
     }
 
-    int length() {
-        return padding;
+    int getWidth()
+    {
+        return width;
     }
 }
