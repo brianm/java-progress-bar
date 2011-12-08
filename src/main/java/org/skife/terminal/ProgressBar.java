@@ -63,7 +63,6 @@ public class ProgressBar
                                 - percentage.length();
 
                 Ansi ansi = Ansi.ansi();
-                ansi.saveCursorPosition();
                 ansi.cursor(height(), 0);
                 ansi.eraseLine(Ansi.Erase.FORWARD);
 
@@ -95,7 +94,8 @@ public class ProgressBar
 
                 System.out.print(ansi);
                 System.out.flush();
-                ansi.restorCursorPosition();
+
+                ProgressBar.moveCursorToBottomRight();
 
                 return null;
             }
@@ -106,6 +106,6 @@ public class ProgressBar
 
     public static void moveCursorToBottomRight()
     {
-        System.out.println(ansi().cursor(terminal.getHeight(), terminal.getWidth()));
+        System.out.print(ansi().cursor(terminal.getHeight(), terminal.getWidth()));
     }
 }

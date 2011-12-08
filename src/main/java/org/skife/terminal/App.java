@@ -53,6 +53,5 @@ public class App
         one.get();
         two.get();
         es.shutdown();
-        ProgressBar.moveCursorToBottomRight();
     }
 }
