@@ -9,7 +9,7 @@
 
     <groupId>org.skife.terminal</groupId>
     <artifactId>java-progress-bar</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.4</version>
     <packaging>jar</packaging>
 
     <name>progress</name>
