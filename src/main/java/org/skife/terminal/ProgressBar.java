@@ -23,11 +23,11 @@ public class ProgressBar
     private final AtomicInteger line = new AtomicInteger(-1);
     private final AtomicReference<Double> progress = new AtomicReference<Double>(0D);
     private final Percentage percentage;
-    private final Label label;
+    private final AtomicReference<Label> label = new AtomicReference<Label>(Label.empty());
 
     public ProgressBar(Label label, Height height, Percentage percentage)
     {
-        this.label = label;
+        this.label.set(label);
         this.line.set(height.getOffset());
         this.percentage = percentage;
     }
@@ -36,6 +36,10 @@ public class ProgressBar
     {
         progress.set(percent);
         return this;
+    }
+
+    public void setLabel(Label label) {
+        this.label.set(label);
     }
 
     public Future<Void> render()
@@ -58,7 +62,7 @@ public class ProgressBar
             {
                 double prog = progress.get();
                 int bar_width = terminal.getWidth()
-                                - (label.getWidth() + 1) // label + space
+                                - (label.get().getWidth() + 1) // label + space
                                 - 2  // brackets
                                 - percentage.length();
 
@@ -99,9 +103,7 @@ public class ProgressBar
 
                 return null;
             }
-        }
-
-        );
+        });
     }
 
     public static void moveCursorToBottomRight()

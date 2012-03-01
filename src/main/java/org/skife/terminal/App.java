@@ -31,6 +31,7 @@ public class App
             {
                 for (int i = 0; i <= 15; i++) {
                     Thread.sleep(500);
+                    slow.setLabel(Label.create("slow " + i, 12));
                     slow.progress((i / 15.0)).render().get();
                 }
                 return null;
